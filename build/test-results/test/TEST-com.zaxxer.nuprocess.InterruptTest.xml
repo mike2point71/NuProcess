@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.zaxxer.nuprocess.InterruptTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-07-08T07:42:50" hostname="MMBP1320.local" time="1.288">
-  <properties/>
-  <testcase name="testDestroyForcibly" classname="com.zaxxer.nuprocess.InterruptTest" time="0.032"/>
-  <testcase name="testDestroy" classname="com.zaxxer.nuprocess.InterruptTest" time="0.026"/>
-  <testcase name="chaosMonkey" classname="com.zaxxer.nuprocess.InterruptTest" time="1.23"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

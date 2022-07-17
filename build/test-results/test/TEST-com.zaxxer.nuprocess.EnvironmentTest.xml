@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.zaxxer.nuprocess.EnvironmentTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-07-08T07:42:35" hostname="MMBP1320.local" time="0.038">
-  <properties/>
-  <testcase name="defaultEnv" classname="com.zaxxer.nuprocess.EnvironmentTest" time="0.032"/>
-  <testcase name="emptyEnv" classname="com.zaxxer.nuprocess.EnvironmentTest" time="0.006"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
