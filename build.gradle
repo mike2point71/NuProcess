@@ -10,6 +10,11 @@ plugins {
     id 'java-library'
 }
 
+group = 'com.zaxxer'
+version = '2.MIKE-SNAPSHOT'
+description = 'NuProcess'
+java.sourceCompatibility = JavaVersion.VERSION_1_7
+
 dependencies {
     implementation 'net.java.dev.jna:jna:5.11.0'
     implementation 'com.squareup.okio:okio:3.1.0'
@@ -17,11 +22,5 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest:2.2'
 }
 
-group = 'com.zaxxer'
-version = '2.0.3-SNAPSHOT'
-description = 'NuProcess'
-java.sourceCompatibility = JavaVersion.VERSION_1_7
-repositories {
-    mavenCentral()
-}
+
 

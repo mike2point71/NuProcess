@@ -20,6 +20,7 @@ import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.zaxxer.nuprocess.NuProcess;
 import com.zaxxer.nuprocess.NuProcessHandler;
+import com.zaxxer.nuprocess.ProcessException;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -648,7 +649,7 @@ public abstract class BasePosixProcess implements NuProcess
    protected static void checkReturnCode(int rc, String failureMessage)
    {
       if (rc != 0) {
-         throw new RuntimeException(failureMessage + ", return code: " + rc + ", last error: " + Native.getLastError());
+         throw new ProcessException(failureMessage, rc, Native.getLastError());
       }
    }
 
