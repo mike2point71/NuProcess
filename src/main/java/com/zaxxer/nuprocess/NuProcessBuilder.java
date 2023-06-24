@@ -253,6 +253,7 @@ public class NuProcessBuilder
     */
    public NuProcess start()
    {
+      ensureNoNullCharacters(command);
       ensureListener();
       String[] env = prepareEnvironment();
 
@@ -267,6 +268,7 @@ public class NuProcessBuilder
     */
    public void run()
    {
+      ensureNoNullCharacters(command);
       ensureListener();
       String[] env = prepareEnvironment();
 
@@ -280,12 +282,30 @@ public class NuProcessBuilder
       }
    }
 
+   private void ensureNoNullCharacters(List<String> commands) {
+      for (String command : commands) {
+         if (command.indexOf('\u0000') >= 0) {
+            throw new IllegalArgumentException("Commands may not contain null characters");
+         }
+      }
+   }
+
+   private void ensureNoNullCharacters(String environment) {
+      if (environment.indexOf('\u0000') >= 0) {
+         throw new IllegalArgumentException("Environment may not contain null characters");
+      }
+   }
+
    private String[] prepareEnvironment()
    {
       String[] env = new String[environment.size()];
       int i = 0;
       for (Entry<String, String> entrySet : environment.entrySet()) {
-         env[i++] = entrySet.getKey() + "=" + entrySet.getValue();
+         String key = entrySet.getKey();
+         String value = entrySet.getValue();
+         ensureNoNullCharacters(key);
+         ensureNoNullCharacters(value);
+         env[i++] = key + "=" + value;
       }
 
       return env;

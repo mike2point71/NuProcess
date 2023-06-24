@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -316,6 +317,62 @@ public class RunTest
       System.err.println("Completed test softCloseStdinAfterWrite()");
    }
 
+   @Test(expected = IllegalArgumentException.class)
+   public void nullCommandViaCommandMutationWithRun() {
+      NuProcessBuilder pb = new NuProcessBuilder(new NullProcessHandler(), command);
+      pb.command().add("--foo\0--bar");
+      pb.run();
+   }
+
+   @Test(expected = IllegalArgumentException.class)
+   public void nullCommandViaCommandMutationWithStart() {
+      NuProcessBuilder pb = new NuProcessBuilder(new NullProcessHandler(), command);
+      pb.command().add("--foo\0--bar");
+      pb.start();
+   }
+
+   @Test(expected = IllegalArgumentException.class)
+   public void nullCommandViaConstructorWithRun() {
+      NuProcessBuilder pb = new NuProcessBuilder(new NullProcessHandler(), command, "--foo\0--bar");
+      pb.run();
+   }
+
+   @Test(expected = IllegalArgumentException.class)
+   public void nullCommandViaConstructorWithStart() {
+      NuProcessBuilder pb = new NuProcessBuilder(new NullProcessHandler(), command, "--foo\0--bar");
+      pb.start();
+   }
+
+   @Test(expected = IllegalArgumentException.class)
+   public void nullEnvironmentKeyViaConstructor() {
+      NuProcessBuilder pb = new NuProcessBuilder(Collections.singletonList(command),
+              Collections.singletonMap("FOO=foo\0BAD=bad", ""));
+      pb.setProcessListener(new NullProcessHandler());
+      pb.run();
+   }
+
+   @Test(expected = IllegalArgumentException.class)
+   public void nullEnvironmentValueViaConstructor() {
+      NuProcessBuilder pb = new NuProcessBuilder(Collections.singletonList(command),
+              Collections.singletonMap("FOO", "foo\0BAD=bad"));
+      pb.setProcessListener(new NullProcessHandler());
+      pb.run();
+   }
+
+   @Test(expected = IllegalArgumentException.class)
+   public void nullEnvironmentKeyViaEnvironmentMutation() {
+      NuProcessBuilder pb = new NuProcessBuilder(new NullProcessHandler(), command);
+      pb.environment().put("FOO=foo\0BAD=bad", "");
+      pb.start();
+   }
+
+   @Test(expected = IllegalArgumentException.class)
+   public void nullEnvironmentValueViaEnvironmentMutation() {
+      NuProcessBuilder pb = new NuProcessBuilder(new NullProcessHandler(), command);
+      pb.environment().put("FOO", "foo\0BAD=bad");
+      pb.start();
+   }
+
    private static byte[] getLotsOfBytes()
    {
       StringBuilder sb = new StringBuilder();
@@ -393,6 +450,9 @@ public class RunTest
       {
          return writes == WRITES && readAdler32.getValue() == writeAdler32.getValue();
       }
+   }
+
+   private static class NullProcessHandler extends NuAbstractProcessHandler {
    }
 
    private static class Utf8DecodingListener extends NuAbstractCharsetHandler
